@@ -33,18 +33,18 @@ ls(char *path)
   if((fd = open(path, 0)) < 0){
     fprintf(2, "ls: cannot open %s\n", path);
     return;
-  }
+  }//若无法打开文件则打印错误
 
   if(fstat(fd, &st) < 0){
     fprintf(2, "ls: cannot stat %s\n", path);
     close(fd);
     return;
-  }
+  }//若找不到文件描述符对应的文件，则打印错误
 
   switch(st.type){
   case T_FILE:
     printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
-    break;
+    break;//如果是普通的文件，标准化名称后直接打印信息
 
   case T_DIR:
     if(strlen(path) + 1 + DIRSIZ + 1 > sizeof buf){
